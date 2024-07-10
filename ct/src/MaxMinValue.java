@@ -11,11 +11,13 @@ public class MaxMinValue {
         //input == "1 2 3 4"
         String answer = "";
 
-        Set<String> inputSet =new HashSet<>();
+        Set<Integer> inputSet =new HashSet<>();
         for(String v : input.split(" ")) {
-            inputSet.add(v);
+            inputSet.add(Integer.parseInt(v));//유효한 문자가 입력되지 않았을경우의 예외처리를 해야하지만, 지금은 처리하지않겠다.
         }
         answer = Collections.min(inputSet) + " " +Collections.max(inputSet);
         return answer;
     }
+
+
 }
