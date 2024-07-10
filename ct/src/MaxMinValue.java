@@ -19,5 +19,23 @@ public class MaxMinValue {
         return answer;
     }
 
+    public String solution2(String input) {
+        //input == "1 2 3 4"
+        String answer = "";
+        String[] s = input.split(" ");
 
+        int min = Integer.parseInt(s[0]);
+        int max = Integer.parseInt(s[0]);
+
+        for(String v : s){
+            int tmp = Integer.parseInt(v);
+
+            if(min >= tmp ) min = tmp;
+            if(max <= tmp ) max = tmp;
+        }
+
+
+        answer = min + " " +max;
+        return answer;
+    }
 }
