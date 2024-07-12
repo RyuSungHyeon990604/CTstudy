@@ -1,9 +1,5 @@
 //가로, 세로 길이가 n인 정사각형으로된 체스판이 있습니다. 체스판 위의 n개의 퀸이 서로를 공격할 수 없도록 배치하고 싶습니다.
-
-
-import java.util.ArrayList;
 import java.util.List;
-
 public class NQueen {
     public int answer=0;
     public int solution(int n) {
