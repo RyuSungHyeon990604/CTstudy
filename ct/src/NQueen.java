@@ -38,7 +38,7 @@ public class NQueen {
     public boolean chkBoard(int[] board,int row){
         boolean flag= true;
         for(int i = 0 ;i<row ;i++){
-            if(i == row || board[i] == board[row]){
+            if(board[i] == board[row]){
                 flag = false;
             }
             if(Math.abs(board[i]-board[row]) == Math.abs(i-row))
