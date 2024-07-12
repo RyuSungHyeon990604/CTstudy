@@ -12,7 +12,7 @@ public class NQueen {
         //그리고 열의 차이만큼 수평거리가 있어야함
         //첫번째 q의 위치를 기준으로 아래쪽의 q의 위치를 맞춰나가자
         int [] board = new int[n];
-        solve(0,board,0,board[0],n);
+        solve(0,board,n);
 
         return answer;
     }
@@ -21,7 +21,7 @@ public class NQueen {
     * x : 윗 행의 x좌표
     * y : 윗 행의 y좌표
     * */
-    public void solve(int row, int[] board, int x,int y,int n){
+    public void solve(int row, int[] board,int n){
         //1 차원 배열로표현
         //index 가 x ,  value가 y
         if(row >= n){
@@ -34,7 +34,7 @@ public class NQueen {
                     answer++;
                     return;
                 }
-                solve(row+1,board,row,board[row],n);
+                solve(row+1,board,n);
             }
         }
     }
