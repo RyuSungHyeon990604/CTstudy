@@ -23,41 +23,33 @@ public class Rotation {
             int tmp  = map[x1+1][y1];
 
             for (int i = y1 ; i < y2; i++) {
-               if(tmp != map[x1][i]){
-                   int a = map[x1][i];
-                   map[x1][i] = tmp;
-                   tmp = a;
-               }
+               int a = map[x1][i];
+               map[x1][i] = tmp;
+               tmp = a;
                 if(min > map[x1][i]){
                     min = map[x1][i];
                 }
             }
             for (int i = x1 ; i < x2; i++) {
-                if(tmp != map[i][y2]){
-                    int a = map[i][y2];
-                    map[i][y2] = tmp;
-                    tmp = a;
-                }
+                int a = map[i][y2];
+                map[i][y2] = tmp;
+                tmp = a;
                 if(min > map[i][y2]){
                     min = map[i][y2];
                 }
             }
             for (int i = y2 ; i > y1 ; i--){
-                if(tmp != map[x2][i]){
-                    int a = map[x2][i];
-                    map[x2][i] = tmp;
-                    tmp = a;
-                }
+                int a = map[x2][i];
+                map[x2][i] = tmp;
+                tmp = a;
                 if(min > map[x2][i]){
                     min = map[x2][i];
                 }
             }
             for (int i = x2 ; i > x1; i--) {
-                if(tmp != map[i][y1]){
-                    int a = map[i][y1];
-                    map[i][y1] = tmp;
-                    tmp = a;
-                }
+                int a = map[i][y1];
+                map[i][y1] = tmp;
+                tmp = a;
                 if(min > map[i][y1]){
                     min = map[i][y1];
                 }
