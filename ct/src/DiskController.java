@@ -23,26 +23,23 @@ public class DiskController {
 
         int end = jobs[0][0];
         int index = 0;
-
-        while(index < jobs.length){
+        int pollCount = 0;
+        while(pollCount < jobs.length){
             while(index < jobs.length && end >= jobs[index][0]) {
                 //디스크가 작동중일때 대기하는 작업들을 넣는다
                 queue.add(jobs[index]);
                 index++;
-
-
-                //디스크가 작동중일때 대기하는 작업이 없을 때, 즉 앞선 작업이  두의 작업요청 시간보다 빨리 끝났을 때
-                if (queue.isEmpty()) {
-                    queue.add(jobs[index]);
-                    end = jobs[index][0];
-                    index++;
-                }
-
-                int[] poll = queue.poll();
-                answer += poll[1] + end - poll[0];
-                end = end + poll[1];
             }
-
+            //디스크가 작동중일때 대기하는 작업이 없을 때, 즉 앞선 작업이  두의 작업요청 시간보다 빨리 끝났을 때
+            if (queue.isEmpty()) {
+                queue.add(jobs[index]);
+                end = jobs[index][0];
+                index++;
+            }
+            int[] poll = queue.poll();
+            answer += poll[1] + end - poll[0];
+            end = end + poll[1];
+            pollCount++;
         }
 
 
