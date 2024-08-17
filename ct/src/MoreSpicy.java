@@ -1,31 +1,35 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class MoreSpicy {
-        public int solution(int[] scoville, int K) {
-            int answer = scoville(scoville, K, 0);;
-            return answer;
-        }
 
-        public boolean isUp(int[] scoville, int K) {
-            for(int s : scoville){
-                if(s < K){
-                    return false;
-                }
-            }
-            return true;
+    public int solution(int[] scoville, int K) {
+        Queue<Integer> heap =new PriorityQueue<>();
+        for(int i : scoville){
+            heap.add(i);
         }
-
-        public int scoville(int[] scoville, int K,int depth) {
-            if(isUp(scoville, K)){
-                return depth;
+        int c = 0;
+        while(heap.size() > 0){
+            if(isUp(heap,K)){
+                return c;
             }else{
-                if(scoville.length == 1){
+                if(heap.size() == 1 )
                     return -1;
-                }
-                Arrays.sort(scoville);
-                scoville[1] = scoville[0] + scoville[1]*2;
-                scoville = Arrays.copyOfRange(scoville, 1, scoville.length);
-                return scoville(scoville, K,depth+1);
+                int a = heap.poll();
+                int b = heap.poll() * 2;
+                heap.add(a + b);
+                c++;
             }
         }
+
+        return -1;
+    }
+
+    public boolean isUp(Queue<Integer> scoville, int K) {
+        if(scoville.peek() < K){
+            return false;
+        }
+        return true;
+    }
+
+
 }
