@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Escape {
 
     //S : 시작 지점
@@ -13,14 +16,13 @@ public class Escape {
     public int solution(String[] maps) {
         int answer = -1;
         char[][] map  = new char[maps.length][maps[0].length()];
-        int[][] visit = new int[maps.length][maps[0].length()];
         for (int i = 0; i < maps.length; i++) {
             map[i] = maps[i].toCharArray();
         }
         for (int i = 0; i < maps.length; i++) {
             for (int j = 0; j < maps[0].length(); j++) {
                 if(map[i][j] == 'S') {
-                    findL(map, i, j, 0,visit);
+                    findL(map, i, j, 0);
                     if(l == -1){
                         s = -1;
                         break;
@@ -42,54 +44,63 @@ public class Escape {
         return answer;
     }
 
-    public void findL(char[][] map, int x,int y,int depth,int[][] visit){
-        if(x < 0 || x > map.length-1 || y < 0 || y > map[0].length-1){
-            return;
-        }
-        if(map[x][y] == 'X') return;
-        if(map[x][y] == 'L'){
-            if (l == -1){
-                lX = x;
-                lY =y;
-                l = depth;
+    public void findL(char[][] map, int x,int y,int depth){
+        int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
+        int [][] vis = new int[map.length][map[0].length];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{x, y,depth});
+        vis[x][y] = 1;
+        while(!q.isEmpty()){
+            int arr[] = q.poll();
+            int lx = arr[0];
+            int ly = arr[1];
+            int d = arr[2];
+
+            if(map[lx][ly] == 'L'){
+                l = d;
+                lX = lx;
+                lY = ly;
+                break;
             }
-            if(l != -1 && l > depth){
-                lX = x;
-                lY =y;
-                l = depth;
+            for(int i = 0; i < dir.length; i++) {
+                int newX = lx + dir[i][0];
+                int newY = ly + dir[i][1];
+                if(newX >= 0 && newX < map.length && newY >= 0 && newY<map[0].length && vis[newX][newY] == 0){
+                    if(map[newX][newY] != 'X'){
+                        vis[newX][newY] = 1;
+                        q.add(new int[]{newX, newY, d+1});
+                    }
+                }
             }
-            return;
         }
-        if(visit[x][y] == 0){
-            visit[x][y] = 1;
-            findL(map, x, y-1, depth+1,visit);
-            findL(map, x+1, y, depth+1,visit);
-            findL(map, x-1, y, depth+1,visit);
-            findL(map, x, y+1, depth+1,visit);
-            visit[x][y] = 0; //방문처리 해제(백트래킹) : 존나중요함
-        }
-        return;
     }
     public void findS(char[][] map, int x,int y,int depth){
-        if(x < 0 || x > map.length-1 || y < 0 || y > map[0].length-1){
-            return;
-        }
-        if(map[x][y] == 'X') return;
-        if(map[x][y] == 'E'){
-            if (s == -1){
-                s = depth;
-            }
-            if(s != -1 && s > depth){
-                s = depth;
-            }
-            return;
-        }
-
+        int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
+        int [][] vis = new int[map.length][map[0].length];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{x, y,depth});
         map[x][y] = 'X';
-        findS(map, x, y+1, depth+1);
-        findS(map, x+1, y, depth+1);
-        findS(map, x, y-1, depth+1);
-        findS(map, x-1, y, depth+1);
+        while(!q.isEmpty()){
+            int arr[] = q.poll();
+            int lx = arr[0];
+            int ly = arr[1];
+            int d = arr[2];
+
+            if(map[lx][ly] == 'E'){
+                s = d;
+                break;
+            }
+            for(int i = 0; i < dir.length; i++) {
+                int newX = lx + dir[i][0];
+                int newY = ly + dir[i][1];
+                if(newX >= 0 && newX < map.length && newY >= 0 && newY<map[0].length && vis[newX][newY] == 0){
+                    if(map[newX][newY] != 'X'){
+                        vis[newX][newY] = 1;
+                        q.add(new int[]{newX, newY, d+1});
+                    }
+                }
+            }
+        }
 
 
     }
