@@ -5,32 +5,19 @@ import java.util.Map;
 
 public class TwoSum {
     public int[] twoSum(int[] nums, int target) {
-        int[] ans = new int[2];
-        int[][] numsc = new int[nums.length][2];
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            numsc[i][0] = nums[i];
-            numsc[i][1] = i;
+           map.put(nums[i], i);
         }
-        Arrays.sort(numsc, new Comparator<int[]>() {
-            public int compare(int[] nums1, int[] nums2) {
-                return nums1[0] - nums2[0];
-            }
-        });
-        int start = 0, end = nums.length - 1;
-        int sum = numsc[start][0] + numsc[end][0];
-        while(true){
-            sum =numsc[start][0] + numsc[end][0];
-            if(sum == target){
-                break;
-            }else{
-                if(sum > target){
-                    end--;
-                }else{
-                    start++;
-                }
+
+        for (int i = 0; i <= nums.length; i++) {
+            int m = target - nums[i];
+            //map.get(m) != i : 같은요소를 사용할수없다
+            if(map.containsKey(m) && map.get(m) != i) {
+                return new int[]{i, map.get(m)};
             }
         }
-        ans = new int[]{numsc[start][1], numsc[end][1]};
-        return ans;
+
+        return new int[]{};
     }
 }
