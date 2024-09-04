@@ -18,29 +18,26 @@ public class AddTwoNumbers {
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        List<Integer> list = new ArrayList<>();
-        ListNode answer =null;
+        ListNode answer =new ListNode();
+        ListNode tmp = answer;
         int a = 0;
         while(true){
             if(l1 == null && l2 == null){
-                if(a == 1){
-                    list.add(a);
+                if(a > 0){
+                    tmp.next = new ListNode(a);
                 }
                 break;
             }
             int v1 = l1 == null ? 0 : l1.val;
             int v2 = l2 == null ? 0 : l2.val;
-
-            list.add((a + v1 + v2) % 10);
+            int mod = (a + v1 + v2) % 10;
+            tmp.next = new ListNode(mod);
             a = (a+v1 + v2)/10;
-
             l1 = l1 == null ? null : l1.next;
             l2 = l2 == null ? null : l2.next;
-        }
-        for(int i = list.size() - 1; i >= 0 ;i--){
-            answer = new ListNode(list.get(i),answer);
+            tmp = tmp.next;
         }
 
-        return answer;
+        return answer.next;
     }
 }
