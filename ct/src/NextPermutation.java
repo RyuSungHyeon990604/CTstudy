@@ -3,8 +3,6 @@ import java.util.Arrays;
 public class NextPermutation {
     public void nextPermutation(int[] nums) {
 
-        int[] clone = nums.clone();
-        Arrays.sort(clone);
 
         int head = nums.length - 2;
         int tail = nums.length - 1;
@@ -20,37 +18,29 @@ public class NextPermutation {
                    tail--;
                }
 
-               int temp = nums[head];
-               nums[head] = nums[tail];
-               nums[tail] = temp;
-               head++;
-               tail = nums.length - 1;
-               while(head < tail){
-                   int tmp = nums[head];
-                   nums[head] = nums[tail];
-                   nums[tail] = tmp;
-                   head++;
-                   tail--;
-               }
+               swap(nums, head, tail);
+               reverse(nums,head+1);
 
-               break;
+               return;
             }else{//head가 더 크다면 이전 자릿수에서 바꿔야함
                 head--;
                 tail--;
             }
+        }
+        reverse(nums,0);
+    }
+    public void swap(int[] arr,int a,int b){
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
 
-            if(head == -1){
-                head = 0 ;
-                tail = nums.length - 1;
-                while(head < tail){
-                    int tmp = nums[head];
-                    nums[head] = nums[tail];
-                    nums[tail] = tmp;
-                    head++;
-                    tail--;
-                }
-                break;
-            }
+    public void reverse(int[] arr,int start){
+        int end  = arr.length-1;
+        while (start < end) {
+            swap(arr, start, end);
+            start++;
+            end--;
         }
     }
 }
