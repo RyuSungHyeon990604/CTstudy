@@ -10,6 +10,6 @@ public class PalindromeNumber {
             n /= 10;
             cx = cx * 10 + rem;
         }
-        return x != cx;
+        return x == cx;
     }
 }
