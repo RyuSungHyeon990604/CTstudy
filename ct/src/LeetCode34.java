@@ -5,6 +5,8 @@ public class LeetCode34 {
         //non-desc 비내림차순 ==> 중복요소있을수있음
         // nums = [1,1,1,1,1] / target = 1  이라면?, nums = [0,0,1,1,1,1,1,1,1,1] / target = 1이라면?
         // 이진탐색으로 찾고 양쪽으로 뻗어나가기?
+        // ==> nums[mid] == target 인 mid값을 구한 뒤 
+        // mid값을 중심으로 왼쪽 오른쪽 부분으로 나누어 다시 이진탐색을 수행하면 된다.
         while (left <= right) {
             int mid = left+(right-left)/2;
 
@@ -31,7 +33,7 @@ public class LeetCode34 {
             int mid = left+(right-left)/2;
 
             if(nums[mid] == target){
-                right = mid - 1; //오른쪽에도 있는지 확인
+                right = mid - 1; //왼쪽에도 있는지 확인
                 start = mid;
             }else{
                 if(nums[mid] > target){
