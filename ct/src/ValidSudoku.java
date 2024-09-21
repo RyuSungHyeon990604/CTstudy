@@ -3,47 +3,46 @@ import java.util.Arrays;
 
 public class ValidSudoku {
     public boolean isValidSudoku(char[][] board) {
-        boolean[] h = new boolean[10];
-        Arrays.fill(h, true);
+
         for (int i = 0 ; i < 9 ; i++) { //chkRow
+            boolean[] h = new boolean[10];
             for (int j = 0 ; j < 9 ; j++) {
                 char c = board[i][j];
                 if(c <= '9' && c >= '1'){
-                    if(!h[c - '0']){
+                    if(h[c - '0']){
                         return false;
                     }
-                    h[c - '0'] = false;
+                    h[c - '0'] = true;
                 }
             }
-            Arrays.fill(h, true);
         }
 
         for (int i = 0 ; i < 9 ; i++) { //chkCol
+            boolean[] h = new boolean[10];
             for (int j = 0 ; j < 9 ; j++) {
                 char c = board[j][i];
                 if(c <= '9' && c >= '1'){
-                    if(!h[c - '0']){
+                    if(h[c - '0']){
                         return false;
                     }
-                    h[c - '0'] = false;
+                    h[c - '0'] = true;
                 }
             }
-            Arrays.fill(h, true);
         }
         for (int i = 0 ; i < 9 ; i += 3) {
             for (int j = 0 ; j < 9 ; j+=3) {
+                boolean[] h = new boolean[10];
                for (int a = i ; a < i + 3 ; a++) {
                    for (int b = j ; b < j + 3 ; b++) {
                        char c = board[a][b];
                        if(c <= '9' && c >= '1'){
-                           if(!h[c - '0']){
+                           if(h[c - '0']){
                                return false;
                            }
-                           h[c - '0'] = false;
+                           h[c - '0'] = true;
                        }
                    }
                }
-               Arrays.fill(h, true);
             }
         }
 
