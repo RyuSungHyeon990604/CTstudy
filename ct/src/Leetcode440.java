@@ -1,70 +1,48 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Leetcode440 {
-    class Root{
-        Trie nodes;
-        int size=0;
-        Root(){
-            this.nodes = new Trie();
-        }
-        public void create(int i,int n,int k){
-            this.nodes.insert(i,n,k);
-        }
 
-    }
-    class Trie{
-        Root root;
-        Map<Character, Trie> child = new HashMap<>();
-        public Trie(){}
-        public  Trie(Root root){
-            this.root = root;
-        }
 
-        public void insert(int i, int n,int k){
-          if(i > n)
-              return;
-          //insert 1 10 100 11 12 13 2
-            String s = String.valueOf(i);
-            Map<Character, Trie> t = this.child;
-            for(char c : s.toCharArray()){
-                if(t.containsKey(c)){
-                    t = t.get(c).child;
-                }else{
-                    t.put(c, new Trie());
-                }
-            }
-            insert(i*10,n,k);
-          if(i+1 <= n && i%10 !=9)
-              insert(i+1,n,k);
-        }
-    }
     public int findKthNumber(int n, int k) {
-        Root root = new Root();
-        root.nodes = new Trie(root);
-        root.create(1,n,k);
-        Map<Character, Trie> child = root.nodes.child;
-
-
-        return 0;
+        int count = k;
+        int i =1;
+        while(count > 0){
+            long c = getCount(i,n);
+            if(c < count){
+                count-=c;
+                i +=1;
+            }else{
+                count-=1;
+                if(count == 0)
+                    break;
+                i*=10;
+            }
+        }
+        return i;
     }
 
-    public void p( List<Integer> list,int i,int n,int k){
-        if(i > n)
-            return;
-        if(list.size() == k){
-            return;
+    public long getCount(int headNum ,int n){
+        //1 10 100
+        long count = 0;
+        long start = headNum;
+        long end = start+1;
+
+        while(start <= n){
+            //1 - 2  10 -20  100- 200  1000 -2000  n =18
+            if(end <= n) // =를 제거하면 headNum == 1, n == 2일때 문제가생김
+                count += end - start;
+            else
+                count += n - start + 1;
+            start*=10;
+            end*=10;
         }
-        list.add(i);
-        p(list,i*10,n,k);
-        if(i+1 <= n && i%10 != 9)
-            p(list,i+1,n,k);
+
+        return count;
     }
 
     public static void main(String[] args) {
         Leetcode440 leetcode = new Leetcode440();
-        System.out.println(leetcode.findKthNumber(681692778, 351251360));
+        System.out.println(leetcode.getCount(1,1));
+//        System.out.println(leetcode.findKthNumber(2, 2));
     }
 }
