@@ -1,23 +1,24 @@
 import java.util.Arrays;
-
+//chk
 public class JumpGameII {
     public int jump(int[] nums) {
         int res = 0;
-        int[] maxDestination = new int[nums.length];
-        int destination = nums.length - 1;
-        while (destination > 0) {
-            for (int i = destination ;   i >= 0; i--) {
-                if(i+nums[i] >= destination){
-                    maxDestination[destination] = i;
-                }
+        int max = 0;
+        int jumpIndex = 0;
+
+        //점프할수있는 모든 경우의 수까지 기다렸다가, 가장 멀리갈수있는 점프를 골라서 점프한다
+        for (int i = 0; i < nums.length-1; i++) {
+            max = Math.max(max, i + nums[i]);//가장 멀리갈수있는 점프
+            if(i == jumpIndex){//점프할수있는 모든 경우의 수까지 기다렸다가
+                res++;//점프한다
+                jumpIndex = max;// 기다리는구간 설정
             }
-            destination = maxDestination[destination];
-            res++;
         }
 
 
         return res;
     }
+
 
     public static void main(String[] args) {
         JumpGameII jumpGameII = new JumpGameII();
