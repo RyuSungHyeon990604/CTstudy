@@ -4,11 +4,7 @@ public class CombinationSumII {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(candidates);
-        int[] arr = new int[candidates[candidates.length-1]+1];
-        for(int i = 0; i < candidates.length; i++) {
-            arr[candidates[i]]++;
-        }
-        sum(arr,res,new ArrayList<>(),0,target);
+        sum(candidates,res,new ArrayList<>(),0,target);
         return res;
     }
 
@@ -18,16 +14,11 @@ public class CombinationSumII {
             return;
         }
         for (int i  = start; i < candidates.length; i++) {
-            if(target< 0) return;
-            if(candidates[i] > 0){
-                list.add(i);
-                candidates[i]--;
-                int s = candidates[i] > 0 ? i : i+1;
-                sum(candidates,res,list,s,target-i);
-                list.remove(list.size()-1);
-                candidates[i]++;
-            }
-
+            if(i> start && candidates[i] == candidates[i-1]) continue;
+            if(target < candidates[i]) break;
+            list.add(candidates[i]);
+            sum(candidates,res,list,i+1,target-candidates[i]);
+            list.remove(list.size()-1);
         }
     }
 
