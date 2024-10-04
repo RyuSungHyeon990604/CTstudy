@@ -3,19 +3,26 @@ import java.util.Arrays;
 public class DividePlayersIntoTeamsofEqualSkill {
     public long dividePlayers(int[] skill) {
         long res = 0L;
-        Arrays.sort(skill);
-        int r = skill.length - 1, l = 0;
-        int chk = skill[r] + skill[l];
-        while (l<r) {
-            if (chk != skill[l] + skill[r]) {
-                return -1;
-            }else{
-                res += skill[l] * skill[r];
-            }
-            l++;
-            r--;
+        int[] arr = new int[1001];
+        long totalSum =0;
+        for (int i = 0; i < skill.length; i++) {
+            arr[skill[i]]++;
+            totalSum += skill[i];
         }
 
-        return res;
+        if(totalSum % (skill.length/2) != 0) { return -1;}
+        long n = totalSum / (skill.length/2);
+        for (int i = 0; i < skill.length; i++) {
+            if(arr[(int) (n - skill[i])] == 0)
+                return -1;
+            arr[(int) (n - skill[i])]--;
+            res += skill[i] * (n - skill[i]);
+        }
+        return res/2;
+    }
+
+    public static void main(String[] args) {
+        DividePlayersIntoTeamsofEqualSkill skill = new DividePlayersIntoTeamsofEqualSkill();
+        skill.dividePlayers(new int[]{3,4});
     }
 }
