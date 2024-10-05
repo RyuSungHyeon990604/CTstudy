@@ -4,25 +4,28 @@ import java.util.Map;
 
 public class PermutationinString {
     public boolean checkInclusion(String s1, String s2) {
+        if(s2.length() < s1.length()) return false;
+
         int[] c = new int[26];
         int[] tmp = new int[26];
-        int start = 0 , end = 0;
+        int start = 0 , end = s1.length()-1;
         for (int i = 0; i < s1.length(); i++) {
             c[s1.charAt(i) - 'a']++;
         }
-        while(end < s2.length()){
-            if(c[s2.charAt(end)-'a'] > 0 && tmp[s2.charAt(end) - 'a'] + 1 <= c[s2.charAt(end)-'a']){
-                tmp[s2.charAt(end) - 'a']++;
-                end++;
-                if(end - start == s1.length()){
-                    if(chk(tmp , c))
-                        return true;
-                }
-            }else{
-                start++;
-                end = start;
-                Arrays.fill(tmp,0);
-            }
+        for (int i = start; i <= end ; i++) {
+            tmp[s2.charAt(i) - 'a']++;
+        }
+        while(start <= s2.length() - s1.length()){
+           if(chk(c,tmp)){
+               return true;
+           }else{
+               if(start == s2.length() - s1.length())
+                   break;
+               tmp[s2.charAt(start) - 'a']--;
+               start+=1;
+               tmp[s2.charAt(end+1) - 'a']++;
+               end+=1;
+           }
         }
         return false;
     }
@@ -38,6 +41,6 @@ public class PermutationinString {
 
     public static void main(String[] args) {
         PermutationinString ps = new PermutationinString();
-        System.out.println(ps.checkInclusion("ab", "eidbdaooo"));
+        System.out.println(ps.checkInclusion("adc", "dcda"));
     }
 }
