@@ -38,6 +38,26 @@ public class MinimumNumberofSwapstoMaketheStringBalanced {
         return ans;
     }
 
+    public int minSwaps2(String s) {
+        int ans = 0;
+        int chk = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '[') {
+                chk++;
+            }else
+                chk--;
+            if(chk < 0){
+                ans++;
+                chk = 1;
+            }
+
+        }
+
+
+
+        return ans;
+    }
+
 
 
     public static void main(String[] args) {
