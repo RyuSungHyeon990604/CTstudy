@@ -41,8 +41,9 @@ public class MinimumNumberofSwapstoMaketheStringBalanced {
     public int minSwaps2(String s) {
         int ans = 0;
         int chk = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '[') {
+
+        for (char c : s.toCharArray()){//charAt보다 toCharArray가 더 빠른듯
+            if (c == '[') {
                 chk++;
             }else
                 chk--;
@@ -50,10 +51,7 @@ public class MinimumNumberofSwapstoMaketheStringBalanced {
                 ans++;
                 chk = 1;
             }
-
         }
-
-
 
         return ans;
     }
