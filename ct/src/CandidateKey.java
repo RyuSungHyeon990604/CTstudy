@@ -17,7 +17,11 @@ public class CandidateKey {
                 boolean isMinimal = true;
                 // 3. 최소성 검사 (이미 등록된 후보키와 비교)
                 for (int key : keySet) {
-                    if ((key & subset) == key) {
+                    if ((key & subset) == key) {// key가 subset의 부분집합인가?
+                        //key가 subset의 부분집합인가?
+                        // key가 subset의 부분집합인가?
+                        // key가 subset의 부분집합인가?
+                        // key가 subset의 부분집합인가? 중요
                         isMinimal = false;
                         break;
                     }
@@ -81,7 +85,7 @@ public class CandidateKey {
                 {"600", "apeach", "music", "2"}
         })); // 출력: 2
 
-        candidateKey.p();
+
     }
 }
 
