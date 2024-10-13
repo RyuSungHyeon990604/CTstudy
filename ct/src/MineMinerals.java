@@ -18,6 +18,9 @@ public class MineMinerals {
     }
 
     public void mine(int[] picks, String[] minerals,Map<String,Integer> map,int fatigueSum,int targetMineral,int totalPicks){
+        if(fatigueSum > answer){//조기 종료 추가
+            return;
+        }
         if(targetMineral >= minerals.length || targetMineral == totalPicks * 5){
             answer = Math.min(answer,fatigueSum);
             return;
@@ -29,7 +32,23 @@ public class MineMinerals {
                 for (int t  = targetMineral; t < targetMineral+5;t++){
                     if(t<minerals.length){
                         int  fatigueIndex = map.get(minerals[t]);
-                        tmp+=Math.pow(5,i <= fatigueIndex ? 0 : i-fatigueIndex);
+                        //Math.pow 는 성능상 비용이 크다
+                        //tmp+=Math.pow(5,i <= fatigueIndex ? 0 : i-fatigueIndex);
+
+                        if(i <= fatigueIndex ){
+                            tmp += 1;
+                        }else if(i == 1){
+                            if(fatigueIndex == 0){
+                                tmp += 5;
+                            }
+                        }else if(i == 2){
+                            if(fatigueIndex == 0){
+                                tmp += 25;
+                            }
+                            if(fatigueIndex == 1){
+                                tmp += 5;
+                            }
+                        }
                     }else{
                         break;
                     }
