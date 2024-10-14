@@ -16,13 +16,21 @@ public class Babbling {
 
         public boolean search(String word){
             Trie cur = root;
+            String preStr ="";
+            StringBuilder curstr = new StringBuilder();
             for (char c : word.toCharArray()) {
+                curstr.append(c);
                 if(cur.child[c -'a'] == null){
                     return false;
                 }
                 cur = cur.child[c -'a'];
                 if(cur.isWord){
+                    if(curstr.toString().equals(preStr) && preStr.isEmpty() == false){
+                        return false;
+                    }
                     cur = root;
+                    preStr = curstr.toString();
+                    curstr.setLength(0);
                 }
             }
             if(Objects.equals(cur,root)){
@@ -55,6 +63,6 @@ public class Babbling {
 
     public static void main(String[] args) {
         Babbling b = new Babbling();
-        b.solution(new String[]{"ayaye", "uuuma", "ye", "yemawoo", "ayaa"});
+        b.solution(new String[]{"ayaye", "uuu", "yeye", "yemawoo", "ayaayaa"});
     }
 }
