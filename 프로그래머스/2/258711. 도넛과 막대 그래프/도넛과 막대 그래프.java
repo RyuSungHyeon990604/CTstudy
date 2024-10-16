@@ -70,7 +70,6 @@ class Solution {
         }
         answer[1] = map.get(answer[0]).next.size() - answer[2] - answer[3];
 
-
         return answer;
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+}
