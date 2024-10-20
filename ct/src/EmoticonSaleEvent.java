@@ -11,11 +11,12 @@ public class EmoticonSaleEvent {
 
     public void p(int[] emoticons,int[] rate,int[][] price,int depth,int[][] users){
         if(depth == emoticons.length){
-            int[] tmp =new int[]{0,0};
-            for (int i = 0 ;i<users.length;i++){
+            int[] tmp =new int[]{0,0};//이모티콘 매출과, 플러스가입자수를 담는 배열생성
+            for (int i = 0 ;i<users.length;i++){// 각각의 사용자 순회
                 int total = 0;
                 for (int[] p : price) {
-                    if(p[0] <= 100 - users[i][0]){
+                    if(p[0] <= 100 - users[i][0]){//p[0] == 최종 할인비율(100-할인율)
+                        //사용자가 원하는 할인율을 넘어선다며 구매한다.
                         total+=p[1];
                     }
                 }
@@ -36,7 +37,7 @@ public class EmoticonSaleEvent {
         for (int i = 0 ;i<rate.length;i++){
             price[depth][0] = rate[i];
             price[depth][1] = emoticons[depth]*rate[i]/100;
-            p(emoticons,rate,price,depth+1,users);
+            p(emoticons,rate,price,depth+1,users);//모든조합으로 이모티콘에 할인율를 재귀적으로 적용 price[i] = [할인율, 할인가]
         }
     }
 
