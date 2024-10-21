@@ -4,28 +4,28 @@ import java.util.Set;
 public class SplitaStringIntotheMaxNumberofUniqueSubstrings {
     int answer = 0;
     public int maxUniqueSplit(String s) {
-        for (int i  = 1 ; i <= s.length() ; i++) {
-            split(s,new HashSet<>(),0,i,0);
-        }
+
+        split(s,new HashSet<>(),0);
+
         return answer;
     }
-
-    public void split(String s, Set<String> set,int start,int end,int len){
-
-        if(end > s.length() || start> s.length()){
-            if(len == s.length())
-                answer = Math.max(answer,set.size());
+    //재귀호출방식 수정
+    //start,end 를 나눌 필요가없다
+    public void split(String s, Set<String> set,int start){
+        if(answer > set.size() + s.length() - start )//조기 종료조건 추가, set에있는 조합과 나머지 문자를 전부 1개로 나누었을때 answer보다 작다면 종료한다
+            return;
+        if(start >= s.length()){
+            answer = Math.max(answer,set.size());
             return;
         }
-        String substring = s.substring(start, end);
-        if(!set.add(substring)){
-            split(s,set,start,end+1,len);
-        }else{
-            for (int i = 1; i <= s.length(); i++) {
-                split(s,set,end,end+i,len+end-start);
+        for (int i = start+1; i <= s.length(); i++) {
+            String tmp = s.substring(start, i);
+            if (set.add(tmp)) {
+                split(s,set,i);
+                set.remove(tmp);
             }
-            set.remove(substring);
         }
+
     }
 
     public static void main(String[] args) {
