@@ -55,12 +55,12 @@ public class RiskOfCollision {
     }
 
     public int getCollisionCount(Map<Integer,int[]> routeMap){
-        Map<String,Integer> map= new HashMap<>();
+        Map<Integer,Integer> map= new HashMap<>();
         for (int[] route : routeMap.values()) {
             if(route[2]==-1)
                 continue;
-            StringBuffer sb = new StringBuffer(route[0]+","+route[1]);
-            map.put(sb.toString(),map.getOrDefault(sb.toString(),0)+1);
+            int k = route[0]*1000 + route[1];//제한 사항 2 ≤ points의 길이 = n ≤ 100 로 key를 유일하게 만들기위해 4자리 정수로 만들어준다
+            map.put(k,map.getOrDefault(k,0)+1);
         }
         int res = 0;
         for (int c : map.values()) {
