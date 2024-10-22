@@ -1,13 +1,31 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class KthLargestSuminaBinaryTree {
     public long kthLargestLevelSum(TreeNode root, int k) {
-        List<Long> sum = new ArrayList<>();
-        sum(root, sum, 0);
-        Collections.sort(sum);
-        return k > sum.size() ? -1 : sum.get(sum.size() - k);
+       Queue<TreeNode> queue = new LinkedList<>();
+       PriorityQueue<Long> pq = new PriorityQueue<>();
+       queue.add(root);
+       while (!queue.isEmpty()) {
+           int n = queue.size();
+           long sum = 0;
+           for (int i = 0; i < n; i++) {
+               TreeNode node = queue.poll();
+               if(node.left != null) {
+                   queue.add(node.left);
+               }
+               if(node.right != null) {
+                   queue.add(node.right);
+               }
+               sum += node.val;
+           }
+           pq.add(sum);
+           if(pq.size() > k) {
+               pq.remove();
+           }
+       }
+       if(pq.size() < k) return -1;
+
+       return pq.peek();
     }
 
     class TreeNode {
@@ -29,14 +47,5 @@ public class KthLargestSuminaBinaryTree {
         }
     }
 
-    public void sum(TreeNode root, List<Long> sum, int depth) {
-        if (root == null) return;
-        if (sum.size() == depth) {
-            sum.add((long) root.val);
-        } else {
-            sum.set(depth, sum.get(depth) + root.val);
-        }
-        sum(root.left, sum, depth + 1);
-        sum(root.right, sum, depth + 1);
-    }
+
 }
