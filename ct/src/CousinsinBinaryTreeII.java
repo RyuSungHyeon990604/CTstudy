@@ -1,37 +1,42 @@
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class CousinsinBinaryTreeII {
     public TreeNode replaceValueInTree(TreeNode root) {
-        TreeNode res = new TreeNode(0);
-        Queue<TreeNode[]> q = new LinkedList<>(); // [child,parent]
-        q.add(new TreeNode[]{root,new TreeNode(0)});
+        List<Integer>  sumByDepth = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>(); // [child,parent]
+        q.add(root);
+        int curSum = root.val;
+        root.val *= -1;
         while (!q.isEmpty()) {
             int n = q.size();
-            int sum = 0;
-            Map<TreeNode, Integer> map = new HashMap<>();
+            int nextCurSum = 0;// 부모노드들로부터 자식들의 모든합을 미리구한다
             for (int i = 0; i < n; i++) {
-                TreeNode[] node = q.poll();
-                sum += node[0].val;
-                map.put(node[1], map.getOrDefault(node[1],0) + node[0].val);
-                q.add(node);
-            }
-            for (int i = 0; i < n; i++) {
-                TreeNode[] node = q.poll();
-                node[0].val = sum - map.get(node[1]);
-                if (node[0].left != null) {
-                    q.add(new TreeNode[]{node[0].left,node[0]});
+                TreeNode cur = q.poll();
+                int t = 0;//형재노드의 합
+                if (cur.left != null) {
+                    q.add(cur.left);
+                    nextCurSum += cur.left.val;
+                    t += cur.left.val;
                 }
-                if (node[0].right != null) {
-                    q.add(new TreeNode[]{node[0].right,node[0]});
+                if (cur.right != null) {
+                    q.add(cur.right);
+                    nextCurSum += cur.right.val;
+                    t += cur.right.val;
                 }
+
+                //같은부모를 가진 노드는 동일깊이 노드의 합에서 제외해야하므로 값을 -t 로하여
+                // cur.val = curSum + cur.val; 과정에서 동일한 부모를 가진노드들의 합을 빼주도록 한다.
+                if (cur.left != null) {
+                    cur.left.val = -t;
+                }
+                if (cur.right != null) {
+                    cur.right.val = -t;
+                }
+                cur.val = curSum + cur.val;
             }
+            curSum = nextCurSum;
         }
-
-
-        return res;
+        return root;
     }
 
     class TreeNode {
