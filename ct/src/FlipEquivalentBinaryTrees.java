@@ -15,47 +15,14 @@ class TreeNode {
 
 public class FlipEquivalentBinaryTrees {
     public boolean flipEquiv(TreeNode root1, TreeNode root2) {
-        Stack<TreeNode> stack1 = new Stack<>();
-        Stack<TreeNode> stack2 = new Stack<>();
-        if(root1 == null && root2 == null)
-            return true;
-        if(root1 == null || root2 == null)
-            return false;
-        stack1.push(root1);
-        stack2.push(root2);
-        while(!stack1.isEmpty()) {
-            TreeNode pop = stack1.pop();
-            TreeNode pop2 = stack2.pop();
-            if(pop.val != pop2.val) return false;
-            if(pop.left != null) {
-                stack1.push(pop.left);
-                if(pop2.left != null && pop.left.val == pop2.left.val) {
-                    stack2.push(pop2.left);
-                }
-                if(pop2.right != null && pop.left.val == pop2.right.val) {
-                    stack2.push(pop2.right);
-                }
-            }
+        if(root1 == null && root2 == null) return true;
+        if(root1 == null || root2 == null) return false;
+        if(root1.val != root2.val) return false;
 
-            if(pop.right != null) {
-                stack1.push(pop.right);
-                if(pop2.left != null && pop.right.val == pop2.left.val) {
-                    stack2.push(pop2.left);
-                }
-                if(pop2.right != null && pop.right.val == pop2.right.val) {
-                    stack2.push(pop2.right);
-                }
-            }
+        boolean noSwap = flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right);
+        boolean swap = flipEquiv(root1.right,root2.left) && flipEquiv(root1.left, root2.right);
 
-            if(pop.left == null || pop.right == null) {
-                if(pop2.left != null && pop2.right != null) return false;
-            }
-            if(stack1.size() != stack2.size()) {
-                return false;
-            }
-
-        }
-        return true;
+        return noSwap || swap;
     }
 
     public static void main(String[] args) {
