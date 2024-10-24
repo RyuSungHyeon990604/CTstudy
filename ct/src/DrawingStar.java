@@ -31,7 +31,7 @@ public class DrawingStar {
 
     public void comb(int[][] line, int start, Map<Integer, Set<Integer>> map, int[] line1, int[] line2) {
         if(line1 != null && line2 != null) {
-            if(isParallel(line1,line2)) return;
+            //if(isParallel(line1,line2)) return;
             int[] integerMeet = getIntegerMeet(line1, line2);
             if(integerMeet == null) return;
             if(map.containsKey(integerMeet[0])) {
@@ -56,23 +56,38 @@ public class DrawingStar {
         }
     }
 
-    public boolean isParallel(int[] line1, int[] line2) {
-       return line1[0] * line2[1] - line1[1] * line2[0] == 0;
-    }
+//    public boolean isParallel(int[] line1, int[] line2) {
+//       return line1[0] * line2[1] - line1[1] * line2[0] == 0;
+//    }
     //Ax + By + E = 0
     //Cx + Dy + F = 0
 
     public int[] getIntegerMeet(int[] line1, int[] line2) {
-        double x1 = (double) ((double)line1[1]*(double)line2[2] - (double)line1[2]*(double)line2[1]) / (double)((double)line1[0]*(double)line2[1] - (double)line1[1]*(double)line2[0]);
-        double y1 = (double)((double)line1[2]*(double)line2[0] - (double)line1[0]*(double)line2[2]) / (double)((double)line1[0]*(double)line2[1] - (double)line1[1]*(double)line2[0]);
-        long x2 = ((long)line1[1]*line2[2] - (long)line1[2]*line2[1]) / ((long)line1[0]*line2[1] - (long)line1[1]*line2[0]);
-        long y2 = ((long)line1[2]*line2[0] - (long)line1[0]*line2[2]) / ((long)line1[0]*line2[1] - (long)line1[1]*line2[0]);
+        // 분모: 두 직선의 교차 여부를 확인하기 위한 계산
+        long denominator = (long)line1[0] * line2[1] - (long)line1[1] * line2[0];
 
-        if(x1 == x2 && y1 == y2) {
-            return new int[]{(int)x2, (int)y2};
-        }else{
+        if (denominator == 0) {
+            // 평행하면 교점이 없음
             return null;
         }
+
+        // x 좌표 계산
+        long numeratorX = (long)line1[1] * line2[2] - (long)line1[2] * line2[1];
+        if (numeratorX % denominator != 0) {
+            // x 좌표가 정수가 아닐 경우 null 리턴
+            return null;
+        }
+        int x = (int) (numeratorX / denominator);
+
+        // y 좌표 계산
+        long numeratorY = (long)line1[2] * line2[0] - (long)line1[0] * line2[2];
+        if (numeratorY % denominator != 0) {
+            // y 좌표가 정수가 아닐 경우 null 리턴
+            return null;
+        }
+        int y = (int) (numeratorY / denominator);
+
+        return new int[]{x, y};  // 정수 좌표 리턴
     }
 
     public static void main(String[] args) {
