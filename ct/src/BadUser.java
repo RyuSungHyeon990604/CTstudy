@@ -4,19 +4,21 @@ import java.util.List;
 import java.util.Set;
 
 public class BadUser {
-    Set<Set<String>> answer = new HashSet<>();
+
     public int solution(String[] user_id, String[] banned_id) {
-        List<List<String>> list = new ArrayList<>();
+        Set<Integer> answer = new HashSet<>();
+        List<List<Integer>> list = new ArrayList<>();
         for (int i = 0; i < banned_id.length; i++) {
-            List<String> matchedID = new ArrayList<String>();
+            List<Integer> matchedID = new ArrayList<Integer>();
             for (int j = 0; j < user_id.length; j++) {
                 if(isMatched(user_id[j].toCharArray(),banned_id[i].toCharArray())){
-                    matchedID.add(user_id[j]);
+                    //j = 1 ==> 10 == 2 넣는다
+                    matchedID.add(1<<j);
                 }
             }
             list.add(matchedID);
         }
-        comb(list,new HashSet<>(),0);
+        comb(list,answer,0,0);
         return answer.size();
     }
 
@@ -34,16 +36,14 @@ public class BadUser {
        return true;
     }
 
-    public void comb(List<List<String>> list,Set<String> result,int index){
-        if(result.size() == list.size()){
-            answer.add(new HashSet<>(result));
+    public void comb(List<List<Integer>> list,Set<Integer> answer,int index,int n){
+        if(index == list.size()){
+            answer.add(n);
             return;
         }
         for (int i = 0 ; i < list.get(index).size() ; i++){
-            if(result.add(list.get(index).get(i))){
-                comb(list,result,index+1);
-                result.remove(list.get(index).get(i));
-            }
+            if((n & list.get(index).get(i)) == 0)// n = 010 이고 list.get(index).get(i) = 101 이면 0 나온다.
+                comb(list,answer,index+1,n  | list.get(index).get(i) );
         }
     }
 
