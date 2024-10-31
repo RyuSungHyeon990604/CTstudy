@@ -3,27 +3,33 @@ import java.util.Queue;
 
 public class CrossBridge {
     public int solution(int[] stones, int k) {
-        int i = -1;//처음 위치
-        int answer = Integer.MAX_VALUE;
-        while (true) {
-            if(i+k >stones.length-1 )
-                return answer;
-            i = getMaxValuesIndex(stones,i+1,i+k);
-            if(stones[i] < answer)
-                answer = stones[i];
-        }
-    }
-    public int getMaxValuesIndex(int[] stones, int start, int end) {
-        int max = Integer.MIN_VALUE;
-        int index = start;
-        for (int i = start; i <= end; i++) {
-            if(max < stones[i]) {
-                max = stones[i];
-                index = i;
+        int min = 0 ,max = 200_000_000;
+        while (min <= max) {
+            int mid = (min + max)/2;
+            boolean can = canCross(stones, mid, k);
+            if (can) {
+                min = mid + 1;
+            }else{
+                max = mid - 1;
             }
 
         }
-        return index;
+
+        return max;
+    }
+    public boolean canCross(int[] stones, int num,int limit) {
+        int zeroSeq = 0;
+        for (int i = 0; i < stones.length; i++) {
+            if(stones[i] - num < 0) {
+                zeroSeq++;
+            }else{
+                zeroSeq = 0;
+            }
+            if(zeroSeq == limit) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
