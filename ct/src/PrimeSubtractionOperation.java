@@ -1,12 +1,14 @@
 public class PrimeSubtractionOperation {
     public boolean primeSubOperation(int[] nums) {
         for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = i>0 ? nums[i]-nums[i-1]-1 : nums[i] - 1; j >= 2; j--) {
+            int start = nums[i] - 1;
+            // i> 0 이라면 소수의 최댓값을 nums[i]-nums[i-1]-1 로 설정하여
+            // nums[i] 에 소수[ nums[i] - (nums[i]-nums[i-1]-1)  = nums[i-1] + 1]를 빼더라도 이전값인 nums[i-1]보다는 크게 만들어주어야함
+            if (i > 0)
+                start = nums[i] - nums[i - 1] - 1;
+            for (int j = start; j >= 2; j--) {
                 //구할수 있는 가장 큰 소수를 구한다
                 if (isPrimeNumber(j) && nums[i] - j < nums[i + 1]) {// 소수를 뺀 값이 다음 값보다 작아야함
-                    if (i > 0 && nums[i] - j <= nums[i - 1]) {// 추가로 만약 i>0 이라면 소수를 뺀 값이 이전값보다 커야함
-                        continue;
-                    }
                     nums[i] = nums[i] - j;
                     break;
                 }
@@ -30,6 +32,6 @@ public class PrimeSubtractionOperation {
 
     public static void main(String[] args) {
         PrimeSubtractionOperation op = new PrimeSubtractionOperation();
-        System.out.println(op.primeSubOperation(new int[]{73,28,12,66,75,12,11,64,88,39}));
+        System.out.println(op.primeSubOperation(new int[]{73, 28, 12, 66, 75, 12, 11, 64, 88, 39}));
     }
 }
