@@ -3,9 +3,12 @@ public class SpiralMatrixII {
         int[][] answer = new int[n][n];
         int v = 1;
         int step=0;
-        while (v <= n*n) {
-            if(step * 2 + 1 == n)
-                break;
+        int target = n*n;
+        if(n%2 ==1){
+            target--;
+            answer[n/2][n/2] = n*n;
+        }
+        while (v <= target) {
             for (int i = step; i < n-1-step; i++) {
                 answer[step][i] = v++;
             }
@@ -20,14 +23,12 @@ public class SpiralMatrixII {
             }
             step++;
         }
-        if(n%2 ==1){
-            answer[n/2][n/2] = n*n;
-        }
+
         return answer;
     }
 
     public static void main(String[] args) {
         SpiralMatrixII s = new SpiralMatrixII();
-        s.generateMatrix(20000);
+        s.generateMatrix(5);
     }
 }
