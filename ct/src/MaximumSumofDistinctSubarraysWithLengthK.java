@@ -1,34 +1,43 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class MaximumSumofDistinctSubarraysWithLengthK {
     public long maximumSubarraySum(int[] nums, int k) {
-        Map<Integer,Integer> map= new HashMap<>();
+        int[] memo = new int[100001];
         long  sum = 0;
         int start = 0;
         int end = k-1;
+        int count = 0;
         for(int i = 0 ; i < k ;i++){
             sum+=nums[i];
-            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+            memo[nums[i]]++;
+            if(memo[nums[i]]==1){
+                count++;
+            }
         }
         long max = sum;
-        if(map.size() < k){
+        if(count < k){
             max = Integer.MIN_VALUE;
         }
         while(end+1 < nums.length){
             sum-=nums[start];
-            map.put(nums[start],map.getOrDefault(nums[start],0)-1);
-            if(map.get(nums[start]) == 0){
-                map.remove(nums[start]);
+            memo[nums[start]]--;
+            if(memo[nums[start]]==0){
+                count--;
             }
             sum+=nums[end+1];
-            map.put(nums[end+1],map.getOrDefault(nums[end+1],0)+1);
-            if(map.size() == k){
+            memo[nums[end+1]]++;
+            if(memo[nums[end+1]]==1){
+                count++;
+            }
+            if(count == k){
                 max= Math.max(max, sum);
             }
             start++;
             end++;
         }
         return max == Integer.MIN_VALUE ? 0 : max;
+    }
+
+    public static void main(String[] args) {
+        MaximumSumofDistinctSubarraysWithLengthK max = new MaximumSumofDistinctSubarraysWithLengthK();
+        max.maximumSubarraySum(new int[]{1,1,1,7,8,9}, 3);
     }
 }
