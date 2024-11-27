@@ -14,6 +14,11 @@ public class ShortestDistanceAfterRoadAdditionQueriesI {
             q.add(0);
             int step = 0;
             while (!q.isEmpty()) {
+                if(i > 0 && step >= answer[i-1]){//조기 종료조건 추가
+                    answer[i] = step;
+                    q.clear();
+                    break;
+                }
                 int size = q.size();
                 for (int j = 0; j < size; j++) {
                     int poll = q.poll();
@@ -43,6 +48,6 @@ public class ShortestDistanceAfterRoadAdditionQueriesI {
 
     public static void main(String[] args) {
         ShortestDistanceAfterRoadAdditionQueriesI sol = new ShortestDistanceAfterRoadAdditionQueriesI();
-        sol.shortestDistanceAfterQueries(5, new int[][]{{2, 4}, {0, 2}, {0, 4}});
+        sol.shortestDistanceAfterQueries(5, new int[][]{{0,4}, {0, 3}, {0, 2}});
     }
 }
