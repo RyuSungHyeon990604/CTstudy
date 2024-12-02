@@ -61,15 +61,14 @@ public class Main {
         }
 
         while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0) {
-                int poll = q.poll();
-                for (int next : graph.get(poll)) {
-                    int newW = memo[poll] + building[next-1];
-                    if(memo[next] < newW) {
-                        memo[next] = newW;
-                        q.add(next);
-                    }
+            int poll = q.poll();
+            for (int next : graph.get(poll)) {
+                int newW = memo[poll] + building[next-1];
+                memo[next] = Math.max(memo[next], newW);
+                //진입차수가 0이되었다는것은 모든 진입간선이 처리되었다는 뜻
+                in[next]--;
+                if(in[next] == 0) {
+                    q.add(next);
                 }
             }
         }
