@@ -17,7 +17,7 @@ public class Solution {
                     cur.child[index] = new Trie();
                 }
                 cur = cur.child[index];
-                cur.list.add(i);
+                if(cur.firstIndex == -1) cur.firstIndex = i;
             }
         }
         public int getIndexOfFirstWord(String searchWord){
@@ -29,12 +29,12 @@ public class Solution {
                 }
                 cur = cur.child[index];
             }
-            return cur.list.get(0);
+            return cur.firstIndex;
         }
     }
     class Trie{
         Trie[] child = new Trie[26];
-        List<Integer> list = new ArrayList<>();
+        int firstIndex = -1;
     }
     public int isPrefixOfWord(String sentence, String searchWord) {
         Root root = new Root();
@@ -43,6 +43,14 @@ public class Solution {
             root.insert(words[i], i+1);
         }
         return root.getIndexOfFirstWord(searchWord);
+    }
+    public int isPrefixOfWord2(String sentence, String searchWord) {
+        String arr[]=sentence.split(" ");
+        for(int i=0;i<arr.length;i++){
+            if(arr[i].startsWith(searchWord))
+                return i+1;
+        }
+        return -1;
     }
 
     public static void main(String[] args) {
