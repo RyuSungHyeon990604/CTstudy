@@ -27,23 +27,18 @@ public class Main {
 
     }
     public static void print(char[][] map){
-        int[] vis =new int[26];
-        vis[map[0][0]-'A']=1;
-        dfs(map,0,0,1,vis);
+        dfs(map,0,0,1,1<<map[0][0]-'A');
         System.out.println(max);
     }
-    public static void dfs(char[][] map, int row, int col,int cnt,int[] vis){
+    public static void dfs(char[][] map, int row, int col,int cnt,int bit){
         for(int i = 0;i<4;i++){
             int nr = row + dirX[i];
             int nc = col + dirY[i];
             if(nr < 0 || nr >= map.length || nc < 0 || nc >= map[0].length) continue;
-            int index = map[nr][nc] - 'A';
-            if(vis[index] == 0){
-                vis[index] = 1;
-                dfs(map,nr,nc,cnt+1,vis);
-                vis[index] = 0;
+            if((1<<map[nr][nc] - 'A' & bit) > 0){
+                max= Math.max(max,cnt);
             }else{
-                max = Math.max(max,cnt);
+                dfs(map,nr,nc,cnt+1,bit|(1<<map[nr][nc] - 'A'));
             }
         }
     }
