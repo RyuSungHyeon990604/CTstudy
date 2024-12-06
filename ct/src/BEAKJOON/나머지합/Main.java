@@ -22,13 +22,12 @@ public class Main {
 
     public static void print(int[] nums, int mod){
         long cnt = 0;
-        int[] prefixSum = new int[nums.length+1];
+        int prefixSum = 0;
         int[] table= new int[mod];
         table[0] = 1;
-        prefixSum[0] = 0;
-        for (int i = 1; i <= nums.length; i++) {
-            prefixSum[i] = (prefixSum[i-1] + nums[i-1])%mod;
-            cnt += table[prefixSum[i]]++;
+        for (int i = 0; i < nums.length; i++) {
+            prefixSum = (prefixSum + nums[i])%mod;
+            cnt += table[prefixSum]++;
         }
         System.out.println(cnt);
     }
