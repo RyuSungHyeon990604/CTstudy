@@ -5,27 +5,25 @@ import java.util.PriorityQueue;
 
 public class Solution {
     public int maximumPopulation(int[][] logs) {
-        Arrays.sort(logs,(a,b)->a[0]-b[0]);
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        pq.offer(2051);
+        int[] p = new int[101];
+        for (int i = 0; i < logs.length; i++) {
+            int b = logs[i][0]-1950;
+            int d = logs[i][1]-1950;
+            p[b] += 1;
+            p[d] -= 1;
+        }
+        int prefixSum = 0;
         int max = Integer.MIN_VALUE;
-        int answer = -1;
-        int cnt = 0;
-        for(int i=0;i<logs.length;i++){
-            int[] cur = logs[i];
-            cnt++;
-            pq.offer(cur[1]);
-            //지금 태어나는 사람이 pq에 담긴사람이 죽은다음일때
-            while(!pq.isEmpty() && pq.peek()<=cur[0]){
-                cnt--;
-                pq.poll();
-            }
-            if(cnt>max){
-                answer = cur[0];
-                max = cnt;
+        int earliestYear = 1950;
+        for (int i = 0; i < p.length; i++) {
+            prefixSum += p[i];
+            if (prefixSum > max){
+                max = prefixSum;
+                earliestYear = i+1950;
             }
         }
-        return answer;
+
+        return earliestYear;
     }
 
     public static void main(String[] args) {
