@@ -4,26 +4,23 @@ import java.util.Arrays;
 
 public class Solution {
     public int maximumBeauty(int[] nums, int k) {
-        Arrays.sort(nums);
-        int n = nums.length;
+        if(nums.length == 1)
+            return 1;
         int max = 1;
-        int cntOfDup = 1;
-        int pre = 0;
-        for (int i = 1; i < n; i++) {
-            if(nums[i] - nums[pre] > 2*k){
-                int j = pre+1;
-                for (; j < i; j++){
-                    if(nums[i] - nums[j] <= 2*k){
-                        break;
-                    }
-                }
-                pre = j;
-                cntOfDup = i-j+1;
-            }else{
-                cntOfDup++;
-                max = Math.max(max, cntOfDup);
-            }
+        int maxNum = 0;
+        for (int n : nums) maxNum = Math.max(maxNum, n);
+        int[] sum = new int[maxNum + 1];
+        for (int n : nums) {
+            sum[Math.max(0,n-k)]++;
+            sum[Math.min(n+k+1,maxNum)]--;
         }
+        int preFixSum =0;
+        for (int i = 0 ;i<maxNum+1;i++) {
+            preFixSum += sum[i];
+            max = Math.max(max,preFixSum);
+        }
+
+
         return max;
     }
 
