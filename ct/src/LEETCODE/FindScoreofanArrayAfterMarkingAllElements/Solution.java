@@ -7,29 +7,25 @@ public class Solution {
         if(nums.length == 1) return nums[0];
         int n = nums.length;
         long sum = 0;
-        int vis[] = new int[n];
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
-        for (int i = 0; i < n; i++) {
-            pq.offer(new int[]{nums[i],i});
+        Integer[] arr = new Integer[n];
+        for(int i = 0; i < n; i++) {
+            arr[i] = i;
         }
-        while (!pq.isEmpty()) {
-            int[] poll = pq.poll();
-            int v = poll[0];
-            int index = poll[1];
-            if(vis[index] == 1){
-                continue;
-            }
-            vis[index] = 1;
-            sum += v;
-            if(index == 0){
-                vis[index+1] = 1;
-            }else if(index == n-1){
-                vis[index-1] = 1;
-            }else{
-                vis[index-1] = 1;
-                vis[index+1] = 1;
-            }
+        Arrays.sort(arr,(a,b) -> nums[a] - nums[b]);
+        boolean[] vis = new boolean[n];
+
+        for(int i : arr) {
+            if(vis[i]) continue;
+
+            sum += nums[i];
+            vis[i] = true;
+            if(i >= 1)
+                vis[i-1] = true;
+            if(i < n-1)
+                vis[i+1] = true;
+
         }
+
         return sum;
     }
 
