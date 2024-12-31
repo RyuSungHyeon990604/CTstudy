@@ -36,6 +36,7 @@ public class Solution {
         Arrays.fill(visited,Integer.MAX_VALUE);
         for (int i = 0; i < gates.length; i++) {
             q.offer(new int[]{gates[i], 0});
+            //방문처리
             visited[gates[i]] = 0;
         }
         int intensity = Integer.MAX_VALUE;
@@ -52,7 +53,7 @@ public class Solution {
             }
             //q는 가중치를 기준으로 내림차순으로 정렬되지만 q의 요소들의 가중치는 점점값이 커짐
             if(cur[1] > intensity){
-                continue;
+                return new int[]{summit,intensity};
             }
             for(Node nextNode : graph.get(cur[0])){
                 if(visited[nextNode.n] > nextNode.w){
