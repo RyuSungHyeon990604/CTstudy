@@ -7,26 +7,33 @@ public class Solution {
         int[] answer = new int[n];
         for (int i = 0; i < numbers.length; i++) {
             long cur = numbers[i];
+            //numbers[i]를 나타낼수있는 포화이진 트리의 높이
             int curH = getH(cur);
-            long center = (1<<(curH-1));
-            if( (cur&(1L <<(((1 << curH) - 1) - center))) == 0) {
+            //포화이진 트리의 최상위 루트노드의 번호
+            int center = (1<<(curH-1));
+            //최상위 루트노드가 0이라면 조건을 만족할수없으므로 answer[i] = 0
+            if( (cur&(1L << center-1)) == 0) {
                 answer[i] = 0;
                 continue;
             }
-            int dfs = dfs(cur, center, curH, (1 << curH) - 1);
+            int dfs = dfs(cur, center, curH);
 
             answer[i] = dfs == 2 ? 0 : 1;
 
         }
         return answer;
     }
-    public int dfs(long number,long center,int h,int cnt) {
+    public int dfs(long number,int center,int h) {
+        //리프노드라면 현재 위치의 비트값을 반환
         if(h == 1){
-            return (number&(1L <<(cnt - center))) != 0 ? 1 : 0;
+            return (number&(1L <<(center-1))) != 0 ? 1 : 0;
         }
-        int cur = (number&(1L <<(cnt - center))) != 0 ? 1 : 0;
-        int right = dfs(number,center + (1<<(h-2)),h-1, cnt);
-        int left = dfs(number,center - (1<<(h-2)),h-1, cnt);
+        int cur = (number&(1L <<(center-1))) != 0 ? 1 : 0;
+        //오른쪽 자식 노드
+        int right = dfs(number,center + (1<<(h-2)),h-1);
+        //왼쪽 자식 노드
+        int left = dfs(number,center - (1<<(h-2)),h-1);
+
 
         if(right == 2 || left == 2)
             return 2;
@@ -37,7 +44,7 @@ public class Solution {
             if(right == 0 && left == 0){
                 return 0;
             }else{
-                //완전 불가능
+                //현재 위치의 비트값이 0인데 자식 노드의 비트값이 모두 0이 아니라면 조건을 만조할수없음
                 return 2;
             }
         }
