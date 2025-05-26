@@ -2,8 +2,9 @@ package 프로그래머스.선입선출스케줄링;
 
 public class Solution {
 	public int solution(int n, int[] cores) {
-		int left = 0, right = 500000000;
-		int minTime = 500000000;
+		//제한사항에 의해 최대 시간은 250000000
+		int left = 0, right = 250000000;
+		int minTime = 250000000;
 		while (left < right) {
 			int mid = (left + right) / 2;
 			if(countProceedJob(cores, mid) >= n) {
