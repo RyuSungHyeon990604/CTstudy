@@ -1,58 +1,51 @@
 package LEETCODE.SortMatrixbyDiagonals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
 public class Solution {
 	public int[][] sortMatrix(int[][] grid) {
-		int[][] res = new int[grid.length][grid[0].length];
-		List<List<Integer>> list = new ArrayList<List<Integer>>();
-		for (int i = 0; i < grid.length; i++) {
-			list.add(new ArrayList<>());
-		}
+		int[][] res = new  int[grid.length][grid[0].length];
 
 		for (int i = grid.length-1; i >= 0; i--) {
-			int x = i;
-			int y = 0;
-			List<Integer> t = new ArrayList<>();
-			while(isValid(x,y,grid)) {
-				t.add(grid[x][y]);
-				x++;
-				y++;
-			}
-			Collections.sort(t);
-
-			for (int j = i ; j < grid.length; j++) {
-				list.get(j).add(t.get(t.size()-1-(j-i)));
-			}
+			sortDiagonal(i, 0, grid, res,  true);
 		}
 
 		for (int i = 1; i < grid[0].length; i++) {
-			int x = 0;
-			int y = i;
-			List<Integer> t = new ArrayList<>();
-			while(isValid(x,y,grid)) {
-				t.add(grid[x][y]);
-				x++;
-				y++;
-			}
-			Collections.sort(t);
+			sortDiagonal(0, i, grid, res,  false);
+		}
 
-			for (int j = 0; j < t.size(); j++) {
-				list.get(j).add(t.get(j));
-			}
-		}
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				res[i][j] = list.get(i).get(j);
-			}
-		}
 		return res;
 	}
 
-	private boolean isValid(int row, int col, int[][] grid) {
-		return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length;
+	private void sortDiagonal(int startX, int startY, int[][] grid, int[][] res, boolean reverse) {
+		int x = startX, y = startY;
+		int size = Math.min(grid.length - startY, grid[0].length - startX);
+		int[] nums = new int[size];
+
+		for (int i = 0; i < size; i++) {
+			nums[i] = grid[x++][y++];
+		}
+
+		Arrays.sort(nums);
+		if(reverse) {
+			reversArray(nums);
+		}
+
+		for (int i = 0; i < size; i++) {
+			res[startX++][startY++] = nums[i];
+		}
+
+	}
+
+	private void reversArray(int[] arr) {
+		int l = 0, r = arr.length-1;
+		while(l < r) {
+			int t = arr[l];
+			arr[l] = arr[r];
+			arr[r] = t;
+			l++;
+			r--;
+		}
 	}
 
 	public static void main(String[] args) {
